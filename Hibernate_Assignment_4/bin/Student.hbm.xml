@@ -1,0 +1,42 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping>
+   <class name = "Student" table = "STUDENT">
+      
+      <meta attribute = "class-description">
+         This class contains the student detail. 
+      </meta>
+      
+      <id name = "id" type = "int" column = "id">
+         <generator class="native"/>
+      </id>
+      
+      <set name = "courses" cascade="save-update" table="Student_Cources">
+         <key column = "Student_id"/>
+         <many-to-many column = "CousedId" class="Courses"/>
+      </set>
+      
+      <property name = "firstName" column = "first_name" type = "string"/>
+      <property name = "lastName" column = "last_name" type = "string"/>
+      <property name = "section" column = "section" type = "string"/>
+      
+   </class>
+
+   <class name = "Courses" table = "COURSES">
+      
+      <meta attribute = "class-description">
+         This class contains the course records. 
+      </meta>
+      
+      <id name = "id" type = "int" column = "id">
+         <generator class="native"/>
+      </id>
+      
+      <property name = "name" column = "course_name" type = "string"/>
+      
+   </class>
+
+</hibernate-mapping>

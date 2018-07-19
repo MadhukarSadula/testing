@@ -34,13 +34,18 @@ public class ManageEmployee {
 
       /* Add another department record in the database */
       Integer DepID2 = ME.addDepartment("MBA", set2);
-
+      HashSet set3 = new HashSet();
+      set2.add(new Employee("employee6",400));
+ 
       /* List down all the employees */
       ME.listDepartments();
-
+ME.updateDepartment(1,set3 );
    
-    
-
+/* List down all the employees */
+ME.listDepartments();  
+ME.deleteDepartment(1);
+/* List down all the employees */
+ME.listDepartments();
    }
 
    /* Method to add an employee record in the database */
@@ -89,6 +94,40 @@ public class ManageEmployee {
          session.close(); 
       }
    }
+   /* Method to update salary for an employee */
+   public void updateDepartment(Integer DepID, Set employee ){
+      Session session = factory.openSession();
+      Transaction tx = null;
+      try {
+         tx = session.beginTransaction();
+         DEPARTMENT department = (DEPARTMENT)session.get(DEPARTMENT.class, DepID); 
+         department.setEmployees( employee );
+         session.update(department);
+         tx.commit();
+      } catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      } finally {
+         session.close(); 
+      }
+   }
    
+   /* Method to delete an employee from the records */
+   public void deleteDepartment(Integer DepID){
+      Session session = factory.openSession();
+      Transaction tx = null;
+      
+      try {
+         tx = session.beginTransaction();
+         DEPARTMENT department = (DEPARTMENT)session.get(DEPARTMENT.class, DepID); 
+         session.delete(department); 
+         tx.commit();
+      } catch (HibernateException e) {
+         if (tx!=null) tx.rollback();
+         e.printStackTrace(); 
+      } finally {
+         session.close(); 
+      }
+   }
  
 }

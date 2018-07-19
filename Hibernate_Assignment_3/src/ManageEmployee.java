@@ -34,7 +34,7 @@ public class ManageEmployee {
       /* List down all the employees */
       ME.listEmployees();
 
-    
+    ME.updateEmployee(2, 6000);
 
    }
 
@@ -108,6 +108,22 @@ public class ManageEmployee {
       }
    }
    
-   /* Method to update salary for an employee */
+   public void updateEmployee(Integer EmployeeID, int salary ){
+	      Session session = factory.openSession();
+	      Transaction tx = null;
+	      
+	      try {
+	         tx = session.beginTransaction();
+	         Employee employee = (Employee)session.get(Employee.class, EmployeeID); 
+	         employee.setSalary( salary );
+	         session.update(employee);
+	         tx.commit();
+	      } catch (HibernateException e) {
+	         if (tx!=null) tx.rollback();
+	         e.printStackTrace(); 
+	      } finally {
+	         session.close(); 
+	      }
+	   }
   
 }
